@@ -21,8 +21,7 @@ type Artist {
 A Musician.
 """
 type Musician {
-    user: User 
-    artist: Artist! 
+    user: User  
     firstName: String
     lastName: String
     band: Band
@@ -33,10 +32,18 @@ type Musician {
 A Band.
 """
 type Band {
-    artist: Artist!
     admin: User 
     name: String
     members: [Musician!] @relation
+}
+
+"""
+An Ad.
+"""
+type Ad {
+    title: String!
+    description: String!
+    author: Artist!
 }
 
 """
@@ -53,15 +60,6 @@ An Instrument.
 """
 type Influence {
     name: String
-}
-
-"""
-A series of themed questions.
-"""
-type Ad {
-    title: String!
-    description: String!
-    author: Artist!
 }
 
 
