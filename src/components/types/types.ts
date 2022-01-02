@@ -1,6 +1,6 @@
 //Main type with properties presents in User, Band and Ad
 export interface IId {
-  id?: number;
+  id?: Number;
 }
 
 export interface IEntity extends IId {
