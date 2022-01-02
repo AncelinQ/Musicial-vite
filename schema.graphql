@@ -1,0 +1,77 @@
+"""
+A registered user.
+"""
+type User {
+    email: String!
+    password: String!
+}
+
+"""
+The Attributes of an Artist (Musician or Band).
+"""
+type Artist {
+    city: String!
+    ads: [Ad!] @relation
+    objectives: String
+    experience: String
+    influences: [Influence!] @relation
+}
+
+"""
+A Musician.
+"""
+type Musician {
+    user: User 
+    artist: Artist! 
+    firstName: String
+    lastName: String
+    band: Band
+    instrument: Instrument @relation
+}
+
+"""
+A Band.
+"""
+type Band {
+    artist: Artist!
+    admin: User 
+    name: String
+    members: [Musician!] @relation
+}
+
+"""
+An Influence.
+"""
+type Influence {
+    style: String
+    refArtist: String
+    refSong: String
+}
+
+"""
+An Instrument.
+"""
+type Influence {
+    name: String
+}
+
+"""
+A series of themed questions.
+"""
+type Ad {
+    title: String!
+    description: String!
+    author: Artist!
+}
+
+
+type Query {
+    allUsers: [User!]
+    allMusicians: [Musician!]
+    allBands: [Band!]
+    allArtists: [Artist!]
+    allAds: [Ad!]
+    allInfluences: [Influence!]
+    allInstruments: [Instrument!]
+    adsByAuthor(author: Artist): [Ad!]
+}
