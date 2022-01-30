@@ -1,4 +1,4 @@
-import { IAd, IBand, IUser } from '../components/types/types';
+import { IAd, IBand, IUser } from '../types/types';
 
 export const Users: IUser[] = [
   {

@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RouteProps } from 'react-router-dom';
 import { BandCard } from '../components/band';
-import { IBand } from '../components/types/types';
+import { IBand } from '../types/types';
 import { Bands } from '../data/data';
 import { FaSearch, FaMapMarkerAlt } from 'react-icons/fa';
 

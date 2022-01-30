@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IAd } from '../types/types';
+import { IAd } from '../../types/types';
 
 interface AdCardProps {
   ad: IAd;

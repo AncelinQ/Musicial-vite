@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RouteProps } from 'react-router-dom';
 import { AdCard } from '../components/ad';
-import { IAd } from '../components/types/types';
+import { IAd } from '../types/types';
 import { Ads } from '../data/data';
 import { FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
 

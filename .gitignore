@@ -4,6 +4,10 @@ dist
 dist-ssr
 *.local
 *.log
+*.prod
+.env
+.faunarc
+*.old.*
 
 # Local Netlify folder
 .netlify

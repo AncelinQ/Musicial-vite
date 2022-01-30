@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RouteProps } from 'react-router-dom';
 import { UserCard } from '../components/user';
-import { IUser } from '../components/types/types';
+import { IUser } from '../types/types';
 import { Users } from '../data/data';
 import { FaSearch, FaMapMarkerAlt } from 'react-icons/fa';
 
