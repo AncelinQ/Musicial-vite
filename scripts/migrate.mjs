@@ -29,6 +29,227 @@ const run = async () =>
     }
   });
 
+  // Create custom indexes
+  const musicianByUserId = {
+    name: 'musician_by_userId',
+    source: fql.Collection('Musician'),
+    terms: [
+      { field: ['data', 'user'] },
+    ],
+  };
+
+  const musiciansByCity = {
+    name: 'musicians_by_city',
+    source: fql.Collection('Musician'),
+    terms: [
+      { field: ['data', 'city'] },
+    ],
+  };
+
+  const bandsByCity = {
+    name: 'bands_by_city',
+    source: fql.Collection('Band'),
+    terms: [
+      { field: ['data', 'city'] },
+    ],
+  };
+
+  const musiciansByStyle = {
+    name: 'musicians_by_style',
+    source: fql.Collection('MusicianStyle'),
+    terms: [
+      { field: ['data', 'style'] },
+    ],
+    values: [
+      { field: ['data', 'musician'] }
+    ]
+  };
+
+  const bandsByStyle = {
+    name: 'bands_by_style',
+    source: fql.Collection('BandStyle'),
+    terms: [
+      { field: ['data', 'style'] },
+    ],
+    values: [
+      { field: ['data', 'band'] }
+    ]
+  };
+
+  const musicianAdsByStyle = {
+    name: 'musicianAds_by_style',
+    source: fql.Collection('MusicianAdStyle'),
+    terms: [
+      { field: ['data', 'style'] },
+    ],
+    values: [
+      { field: ['data', 'musicianAd'] }
+    ]
+  };
+
+  const musicianAdsByCity = {
+    name: 'musicianAds_by_city',
+    source: fql.Collection('MusicianAd'),
+    terms: [
+      { field: ['data', 'city'] },
+    ]
+  };
+
+
+  const bandAdsByStyle = {
+    name: 'bandAds_by_style',
+    source: fql.Collection('BandAdStyle'),
+    terms: [
+      { field: ['data', 'style'] },
+    ],
+    values: [
+      { field: ['data', 'bandAd'] }
+    ]
+  };
+
+  const bandAdsByCity = {
+    name: 'bandAds_by_city',
+    source: fql.Collection('BandAd'),
+    terms: [
+      { field: ['data', 'city'] },
+    ]
+  };
+
+  console.info('Creating custom indexes...');
+  console.info('Creating custom index musician_by_userId');
+  await faunaClient.query(
+    fql.If(
+      fql.Exists(
+        fql.Index('musician_by_userId')
+      ),
+      fql.Update(
+        fql.Index('musician_by_userId'),
+        musicianByUserId
+      ),
+      fql.CreateIndex(musicianByUserId)
+    )
+  );
+
+  console.info('Creating custom index musicians_by_city...');
+  await faunaClient.query(
+    fql.If(
+      fql.Exists(
+        fql.Index('musicians_by_city')
+      ),
+      fql.Update(
+        fql.Index('musicians_by_city'),
+        musiciansByCity
+      ),
+      fql.CreateIndex(musiciansByCity)
+    )
+  );
+
+  console.info('Creating custom index bands_by_city...');
+  await faunaClient.query(
+    fql.If(
+      fql.Exists(
+        fql.Index('bands_by_city')
+      ),
+      fql.Update(
+        fql.Index('bands_by_city'),
+        bandsByCity
+      ),
+      fql.CreateIndex(bandsByCity)
+    )
+  );
+
+  console.info('Creating custom index musicians_by_style...');
+  await faunaClient.query(
+    fql.If(
+      fql.Exists(
+        fql.Index('musicians_by_style')
+      ),
+      fql.Update(
+        fql.Index('musicians_by_style'),
+        musiciansByStyle
+      ),
+      fql.CreateIndex(musiciansByStyle)
+    )
+  );
+
+  console.info('Creating custom index bands_by_style...');
+
+  await faunaClient.query(
+    fql.If(
+      fql.Exists(
+        fql.Index('bands_by_style')
+      ),
+      fql.Update(
+        fql.Index('bands_by_style'),
+        bandsByStyle
+      ),
+      fql.CreateIndex(bandsByStyle)
+    )
+  );
+
+
+
+  console.info('Creating custom index musicianAds_by_style...');
+
+  await faunaClient.query(
+    fql.If(
+      fql.Exists(
+        fql.Index('musicianAds_by_style')
+      ),
+      fql.Update(
+        fql.Index('musicianAds_by_style'),
+        musicianAdsByStyle
+      ),
+      fql.CreateIndex(musicianAdsByStyle)
+    )
+  );
+
+  console.info('Creating custom index musicianAds_by_city...');
+
+  await faunaClient.query(
+    fql.If(
+      fql.Exists(
+        fql.Index('musicianAds_by_city')
+      ),
+      fql.Update(
+        fql.Index('musicianAds_by_city'),
+        musicianAdsByCity
+      ),
+      fql.CreateIndex(musicianAdsByCity)
+    )
+  );
+
+  console.info('Creating custom index bandAds_by_city...');
+
+  await faunaClient.query(
+    fql.If(
+      fql.Exists(
+        fql.Index('bandAds_by_city')
+      ),
+      fql.Update(
+        fql.Index('bandAds_by_city'),
+        bandAdsByCity
+      ),
+      fql.CreateIndex(bandAdsByCity)
+    )
+  );
+
+  console.info('Creating custom index bandAds_by_style...');
+
+  await faunaClient.query(
+    fql.If(
+      fql.Exists(
+        fql.Index('bandAds_by_style')
+      ),
+      fql.Update(
+        fql.Index('bandAds_by_style'),
+        bandAdsByStyle
+      ),
+      fql.CreateIndex(bandAdsByStyle)
+    )
+  );
+
+
   // Create custom resolvers
   console.info('Creating custom resolvers...');
 
