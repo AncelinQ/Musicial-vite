@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { IBand } from '../types/types';
+import { Band } from '../../types/api';
 
 interface BandCardProps {
-  band: IBand;
+  band: Band;
 }
 
 const BandCard: FC<BandCardProps> = ({ band }) => {
@@ -15,11 +15,18 @@ const BandCard: FC<BandCardProps> = ({ band }) => {
               <h2 className='card-header-title is-centered title is-2 has-text-white	'>
                 {band.name}
               </h2>
+              <p>{band.city}</p>
             </div>
             <div className='card-content'>
               <div className='content'>
-                <p></p>
-                <a className='button is-primary' href={`/bands/${band.id}`}>
+                <div className='tags'>
+                  {band.styles?.data?.map((style, index) => (
+                    <span key={index} className='tag'>
+                      {style.style?.name}
+                    </span>
+                  ))}
+                </div>
+                <a className='button is-primary' href={`/bands/${band._id}`}>
                   Voir
                 </a>
               </div>

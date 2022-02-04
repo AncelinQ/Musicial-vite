@@ -1,6 +1,6 @@
-import { IAd, IBand, IUser } from '../components/types/types';
+import { IAd, IBand, IUser, IMusician } from '../types/types';
 
-export const Users: IUser[] = [
+export const Users: IMusician[] = [
   {
     id: 1,
     firstName: 'Michel',
