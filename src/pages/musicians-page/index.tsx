@@ -1,18 +1,22 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RouteProps } from 'react-router-dom';
-import { AdCard } from '../components/ad';
-import { IAd } from '../types/types';
-import { Ads } from '../data/data';
-import { FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
+import { MusicianCard } from '../../components/musician';
+import { Audio } from 'react-loader-spinner';
+import { FaSearch, FaMapMarkerAlt } from 'react-icons/fa';
+import { useQuery } from '@apollo/client';
+import { AllMusiciansQuery } from './queries/';
 
 type FormValues = {
   searchParams: string;
   city: string;
 };
 
-const AdsPage: FC<RouteProps> = ({}) => {
-  const [ads, setAd] = useState(Ads);
+const MusiciansPage: FC<RouteProps> = ({}) => {
+  const { data, loading } = useQuery(AllMusiciansQuery);
+
+  const musicians = data?.allMusicians;
+
   const {
     register,
     handleSubmit,
@@ -24,25 +28,8 @@ const AdsPage: FC<RouteProps> = ({}) => {
   };
   return (
     <>
-      <h1 className='title has-text-centered'>Toutes les Annonces</h1>
-      <form onSubmit={handleSubmit(onSubmit)} method='get'>
-        <div className='control has-text-centered'>
-          <label className='radio'>De Groupes </label>
-          <input
-            type='radio'
-            name='AdType'
-            id='groupAdType'
-            value='groupAdType'
-            checked
-          />
-          <label className='radio'>De Musiciens</label>
-          <input
-            type='radio'
-            name='AdType'
-            id='musicianAdType'
-            value='musicianAdType'
-          />
-        </div>
+      <h1 className='title has-text-centered'>Tou·te·s les Musicien·ne·s</h1>
+      <form onSubmit={handleSubmit(onSubmit)} method='post'>
         <div className='field is-grouped'>
           <div className='control has-icons-left is-expanded'>
             <label className='label is-hidden'>Recherche</label>
@@ -75,13 +62,19 @@ const AdsPage: FC<RouteProps> = ({}) => {
           </button>
         </div>
       </form>
-      <div>
-        {ads.map((ad, index) => (
-          <AdCard key={index} ad={ad} />
-        ))}
-      </div>
+      {loading || typeof musicians === 'undefined' ? (
+        <div className='is-flex is-justify-content-center'>
+          <Audio color='#29298d' height={40} width={40} />
+        </div>
+      ) : (
+        <div>
+          {musicians.data.map((musician, index) => (
+            <MusicianCard key={index} musician={musician} />
+          ))}
+        </div>
+      )}
     </>
   );
 };
 
-export default AdsPage;
+export default MusiciansPage;

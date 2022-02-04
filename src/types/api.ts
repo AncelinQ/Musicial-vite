@@ -7,23 +7,24 @@ export interface User extends FaunaEntity {
 
 export interface Artist extends FaunaEntity {
   city?: string;
+  firstName?: string;
+  lastName?: string;
+  name?: string;
   objectives?: string;
   experience?: string;
   influences?: FaunaPage<Influence>;
+  styles?: FaunaPage<ArtistStyle>;
   ads?: FaunaPage<Ad>;
+  instrument?: Instrument;
 }
 
 export interface Musician extends FaunaEntity, Artist {
   user?: User;
-  firstName?: string;
-  lastName?: string;
   band?: Band;
-  instrument?: Instrument;
 }
 
 export interface Band extends FaunaEntity, Artist {
   admin?: User;
-  name?: string;
   members?: FaunaPage<Musician>;
 }
 
@@ -31,12 +32,22 @@ export interface Ad extends FaunaEntity {
   author?: Artist;
   title?: string;
   description?: string;
+  instrument?: Instrument;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface Influence extends FaunaEntity {
   style?: string;
   refArtist?: string;
-  refSong?: string;
+}
+
+export interface ArtistStyle extends FaunaEntity {
+  style?: Style;
+  artist?: Artist;
+}
+export interface Style extends FaunaEntity {
+  name?: string;
 }
 
 export interface Instrument extends FaunaEntity {

@@ -23,19 +23,22 @@ export interface IEntity extends IId {
   favorites?: IEntity[];
 }
 
-export interface IUser extends IEntity {
+export interface IUser {
   email: String;
-  firstName: String;
-  lastName: String;
-  age: Number;
-  gender: Number;
+  password?: String;
+}
+
+export interface IMusician extends IEntity {
+  user: IUser;
+  age?: Number;
+  gender?: Number;
   instruments?: String[];
   bands?: IBand[];
 }
 
 export interface IBand extends IEntity {
   name: String;
-  members: IUser[];
+  members: IMusician[];
   since?: Date;
   contact?: String;
   formerName?: String;
@@ -44,7 +47,7 @@ export interface IBand extends IEntity {
 export interface IItems {
   createdAt: Date;
   updatedAt?: Date;
-  createdBy: IUser | IBand;
+  createdBy: IMusician | IBand;
 }
 
 export interface IAd extends IItems, IEntity {
@@ -55,5 +58,5 @@ export interface IAd extends IItems, IEntity {
 }
 
 export interface IMessage extends IItems, IId {
-  recipient: IUser;
+  recipient: IMusician;
 }

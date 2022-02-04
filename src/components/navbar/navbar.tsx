@@ -10,7 +10,8 @@ import {
 } from 'react-icons/fa';
 
 const Navbar: FC = () => {
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const [isActive, setisActive] = React.useState(false);
+
   return (
     <>
       <nav className='navbar' role='navigation' aria-label='main-navigation'>
@@ -19,19 +20,24 @@ const Navbar: FC = () => {
             <img src={Logo} alt='Musicial' width='250' />
           </a>
           <a
-            href='#'
             role='button'
-            className='navbar-burger'
+            className={`navbar-burger burger ${isActive ? 'is-active' : ''}`}
             aria-label='menu'
             aria-expanded='false'
             data-target='navbarBasicExample'
+            onClick={() => {
+              setisActive(!isActive);
+            }}
           >
             <span aria-hidden='true'></span>
             <span aria-hidden='true'></span>
             <span aria-hidden='true'></span>
           </a>
         </div>
-        <div className='navbar-menu'>
+        <div
+          id='navbarBasicExample'
+          className={`navbar-menu ${isActive ? 'is-active' : ''}`}
+        >
           <div className='navbar-start'>
             <div className='navbar-item'>
               <a href='/ads'>
@@ -68,7 +74,7 @@ const Navbar: FC = () => {
                 <span className='ml-2'>Favoris</span>
               </a>
             </div>
-            <div className='navbar-item has-dropsown is-hoverable'>
+            <div className='navbar-item has-dropdown is-hoverable'>
               <a className='navbar-link' href='#'>
                 <FaUserCircle />
                 <span className='ml-2'>Profil</span>

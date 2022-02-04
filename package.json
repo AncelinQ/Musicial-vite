@@ -9,17 +9,20 @@
         "fixtures": "node scripts/fixtures.mjs"
     },
     "dependencies": {
+        "@apollo/client": "^3.5.8",
         "@netlify/functions": "^0.8.0",
         "@types/node": "^14.18.0",
         "bulma": "^0.9.3",
         "dotenv": "^10.0.0",
         "faunadb": "^4.4.1",
-        "graphql": "^16.1.0",
+        "graphql": "^16.3.0",
+        "netlify-cli": "^8.15.3",
         "node-sass": "^7.0.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-hook-form": "^7.22.5",
         "react-icons": "^4.3.1",
+        "react-loader-spinner": "^5.1.0",
         "react-router": "^6.2.1",
         "react-router-dom": "^6.1.1"
     },

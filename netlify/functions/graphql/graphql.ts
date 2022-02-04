@@ -1,7 +1,8 @@
 import { Handler } from '@netlify/functions';
 import fetch from 'node-fetch';
 
-const { FAUNA_HTTPS, FAUNA_GRAPHQL_DOMAIN, FAUNA_SECRET } = process.env;
+const { VITE_FAUNA_HTTPS, VITE_FAUNA_GRAPHQL_DOMAIN, VITE_FAUNA_SECRET } =
+  process.env;
 
 class BadRequestException extends Error {
   private reason: string;
@@ -44,8 +45,8 @@ export const handler: Handler = async (event, context) => {
     // Dispatch GraphQL request to Fauna server
     const response = await fetch(
       `http${
-        FAUNA_HTTPS === 'true' ? 's' : ''
-      }://${FAUNA_GRAPHQL_DOMAIN}/graphql`,
+        VITE_FAUNA_HTTPS === 'true' ? 's' : ''
+      }://${VITE_FAUNA_GRAPHQL_DOMAIN}/graphql`,
       {
         method: 'POST',
         body: JSON.stringify({
@@ -54,7 +55,7 @@ export const handler: Handler = async (event, context) => {
         }),
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${FAUNA_SECRET}`,
+          Authorization: `Bearer ${VITE_FAUNA_SECRET}`,
         },
       }
     );

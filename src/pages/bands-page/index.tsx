@@ -1,10 +1,11 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RouteProps } from 'react-router-dom';
-import { BandCard } from '../components/band';
-import { IBand } from '../types/types';
-import { Bands } from '../data/data';
+import { BandCard } from '../../components/band';
 import { FaSearch, FaMapMarkerAlt } from 'react-icons/fa';
+import { Audio } from 'react-loader-spinner';
+import { useQuery } from '@apollo/client';
+import { AllBandsQuery } from './queries';
 
 type FormValues = {
   searchParams: string;
@@ -12,7 +13,10 @@ type FormValues = {
 };
 
 const BandsPage: FC<RouteProps> = ({}) => {
-  const [bands, setBand] = useState(Bands);
+  const { data, loading } = useQuery(AllBandsQuery);
+
+  const bands = data?.allBands;
+
   const {
     register,
     handleSubmit,
@@ -58,11 +62,17 @@ const BandsPage: FC<RouteProps> = ({}) => {
           </button>
         </div>
       </form>
-      <div>
-        {bands.map((band, index) => (
-          <BandCard key={index} band={band} />
-        ))}
-      </div>
+      {loading || typeof bands === 'undefined' ? (
+        <div className='is-flex is-justify-content-center'>
+          <Audio color='#29298d' height={40} width={40} />
+        </div>
+      ) : (
+        <div>
+          {bands.data.map((band, index) => (
+            <BandCard key={Number(index)} band={band} />
+          ))}
+        </div>
+      )}
     </>
   );
 };

@@ -2,12 +2,13 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 import faunaClient from './fauna-client.mjs';
 import faunadb from 'faunadb';
+import { serialize } from 'v8';
 const fql = faunadb.query;
 
 const {
-  FAUNA_GRAPHQL_DOMAIN,
-  FAUNA_HTTPS,
-  FAUNA_SECRET,
+  VITE_FAUNA_GRAPHQL_DOMAIN,
+  VITE_FAUNA_HTTPS,
+  VITE_FAUNA_SECRET,
 } = process.env;
 
 // This script migrates the database schema to the database server
@@ -20,11 +21,11 @@ const run = async () =>
   // Read the schema from the .graphql file
   const stream = fs.createReadStream('schema.graphql');
   // Import schema into Fauna GraphQL
-  await fetch(`http${FAUNA_HTTPS === true ? 's' : ''}://${FAUNA_GRAPHQL_DOMAIN}/import`, {
+  await fetch(`http${VITE_FAUNA_HTTPS === true ? 's' : ''}://${VITE_FAUNA_GRAPHQL_DOMAIN}/import`, {
     method: 'POST',
     body: stream,
     headers: {
-      'Authorization': `Bearer ${FAUNA_SECRET}`,
+      'Authorization': `Bearer ${VITE_FAUNA_SECRET}`,
       'Content-Type': 'application/octet-stream',
     }
   });
@@ -113,6 +114,14 @@ const run = async () =>
     terms: [
       { field: ['data', 'city'] },
     ]
+  };
+
+  const userByEmail = {
+    name: "user_by_email",
+    source: fql.Collection("User"),
+    terms: [{ field: ["data", "email"], transform: "casefold" }],
+    unique: true,
+    serialized: true
   };
 
   console.info('Creating custom indexes...');
@@ -246,6 +255,21 @@ const run = async () =>
         bandAdsByStyle
       ),
       fql.CreateIndex(bandAdsByStyle)
+    )
+  );
+
+  console.info('Creating custom index user_by_email...');
+
+  await faunaClient.query(
+    fql.If(
+      fql.Exists(
+        fql.Index('user_by_email')
+      ),
+      fql.Update(
+        fql.Index('user_by_email'),
+        userByEmail
+      ),
+      fql.CreateIndex(userByEmail)
     )
   );
 

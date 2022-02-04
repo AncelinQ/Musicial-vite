@@ -43,6 +43,7 @@ type MusicianAd {
     author: Musician!
     city: String!
     styles: [MusicianAdStyle!]
+    instrument: Instrument
 }
 
 """
@@ -54,6 +55,7 @@ type BandAd {
     author: Band!
     city: String!
     styles: [BandAdStyle!]
+    instrument: Instrument
 }
 
 
@@ -128,4 +130,5 @@ type Query {
     musiciansByStyleId(styleId: ID!): [Musician!] @resolver(name: "musiciansByStyleId", paginated: true)
     musicianAdsByCity(city: String!): [MusicianAd!] @resolver(name: "musicianAdsByCity", paginated: true)
     musicianAdsByStyleId(styleId: ID!): [MusicianAd!] @resolver(name: "musicianAdsByStyleId", paginated: true)
+    login()
 }
