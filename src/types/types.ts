@@ -8,6 +8,7 @@ export interface IEntity extends IId {
   firstName?: String;
   lastName?: String;
   city: String;
+  email?: String;
   picture?: String;
   experience?: String; //may become mandatory
   objective?: String; //may become mandatory
@@ -23,13 +24,13 @@ export interface IEntity extends IId {
   favorites?: IEntity[];
 }
 
-export interface IUser {
+export interface IUser extends IId {
   email: String;
   password?: String;
 }
 
 export interface IMusician extends IEntity {
-  user: IUser;
+  user?: IUser;
   age?: Number;
   gender?: Number;
   instruments?: String[];
