@@ -3,12 +3,14 @@ import { FaunaEntity, FaunaPage } from './fauna';
 export interface User extends FaunaEntity {
   email?: string;
   password?: string;
+  role?: Role;
+  firstName?: string;
+  lastName?: string;
 }
 
 export interface Artist extends FaunaEntity {
+  adminUser?: User;
   city?: string;
-  firstName?: string;
-  lastName?: string;
   name?: string;
   objectives?: string;
   experience?: string;
@@ -19,12 +21,10 @@ export interface Artist extends FaunaEntity {
 }
 
 export interface Musician extends FaunaEntity, Artist {
-  user?: User;
   band?: Band;
 }
 
 export interface Band extends FaunaEntity, Artist {
-  admin?: User;
   members?: FaunaPage<Musician>;
 }
 
@@ -52,6 +52,22 @@ export interface Style extends FaunaEntity {
 
 export interface Instrument extends FaunaEntity {
   name?: string;
+}
+
+export interface AuthPayload {
+  token: string;
+  adminUser: User;
+}
+
+export enum Role {
+  Admin,
+  User,
+  Guest,
+}
+
+export enum ResourceIdentifier {
+  Musician = 'Musician',
+  Band = 'Band',
 }
 
 // export interface User extends FaunaEntity {

@@ -1,6 +1,6 @@
-import { FaunaId } from './../../../types/fauna';
+import { FaunaId } from '../../../common/types/fauna';
 import { gql, TypedDocumentNode } from '@apollo/client';
-import { Musician } from '../../../types/api';
+import { Musician } from '../../../common/types/types';
 
 interface Response {
   findMusicianByID: Musician;
@@ -13,13 +13,13 @@ interface Variables {
 const query: TypedDocumentNode<Response, Variables> = gql`
   query findMusicianByID($id: ID!) {
     findMusicianByID(id: $id) {
-      user {
+      adminUser {
         _id
         email
+        firstName
+        lastName
       }
       _id
-      firstName
-      lastName
       city
       instrument {
         _id

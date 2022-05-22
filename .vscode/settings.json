@@ -1,7 +1,9 @@
 {
   "fauna.domain": "localhost",
   "fauna.graphqlHost": "localhost:8084",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "fauna.adminSecretKey": "fnAEcblvp1ACAAbCfnmesEc-q3Y0GoM25t7aDgdJ",
   "fauna.port": 8443,
-  "fauna.scheme": "http",
-  "fauna.adminSecretKey": "fnAEcblvp1ACAAbCfnmesEc-q3Y0GoM25t7aDgdJ"
+  "fauna.scheme": "http"
 }
