@@ -1,15 +1,16 @@
 type User {
-    email: String!
+    firstName: String!
+    lastName: String!
+    email: String! @unique
     password: String!
+    role: Role!
 }
 
 """
 A Musician. 
 """
 type Musician {
-    user: User
-    firstName: String!
-    lastName: String!
+    adminUser: User @unique
     band: Band
     isBandAdmin: Boolean
     instrument: Instrument @relation
@@ -18,6 +19,7 @@ type Musician {
     objective: String
     experience: String
     styles: [MusicianStyle!] @relation
+    messages: [Message] @relation
 }
 
 """
@@ -29,7 +31,7 @@ type Band  {
     objective: String
     experience: String
     styles: [BandStyle!] @relation
-    admin: User!
+    adminUser: User!
     name: String!
     members: [Musician!] @relation
 }
@@ -106,6 +108,56 @@ type Instrument {
     name: String
 }
 
+"""
+A Message.
+"""
+type Message {
+    sender: Musician!
+    receiver: Musician!
+    message: String
+}
+
+input CreateUserInput {
+ firstName: String!
+ lastName: String!
+ email: String!
+ password: String!
+ role: Role!
+}
+
+input Musician {
+    adminUser: User!
+    band: Band
+    isBandAdmin: Boolean
+    instrument: Instrument
+    city: String!
+    ads: [MusicianAd!]
+    objective: String
+    experience: String
+    styles: [MusicianStyle!]
+}
+
+input LoginUserInput {
+ email: String!
+ password: String!
+}
+
+input LogoutInput {
+ allTokens: Boolean
+}
+
+type AuthPayload {
+ token: String!
+ adminUser: User!
+}
+
+
+enum Role {
+  Admin
+  User
+  Guest
+}
+
 type Query {
     allUsers: [User!]
     allMusicians: [Musician!]
@@ -118,6 +170,8 @@ type Query {
     allBandStyles: [BandStyle!]
     allBandAdStyles: [BandAdStyle!]
     allInstruments: [Instrument!]
+    currentUser: User @resolver(name: "current_user")
+    userByEmail(email: String!): [User!]
     bandsByCity(city: String!): [Band!] @resolver(name: "bandsByCity", paginated: true)
     bandsByStyleId(styleId: ID!): [Band!] @resolver(name: "bandsByStyleId", paginated: true)
     bandAdsByCity(city: String!): [BandAd!] @resolver(name: "bandAdsByCity", paginated: true)
@@ -128,7 +182,16 @@ type Query {
     musiciansByCity(city: String!): [Musician!] @resolver(name: "musiciansByCity", paginated: true)
     musicianByUserId(userId: ID!): Musician! @resolver(name: "musicianByUserId")
     musiciansByStyleId(styleId: ID!): [Musician!] @resolver(name: "musiciansByStyleId", paginated: true)
+    musiciansByInstrumentId(instrumentId: ID!): [Musician!] @resolver(name: "musiciansByInstrumentId", paginated: true)
     musicianAdsByCity(city: String!): [MusicianAd!] @resolver(name: "musicianAdsByCity", paginated: true)
     musicianAdsByStyleId(styleId: ID!): [MusicianAd!] @resolver(name: "musicianAdsByStyleId", paginated: true)
-    login()
+}
+
+type Mutation{
+  register(data: LoginUserInput): User! @resolver(name: "register")
+  createUser(data: CreateUserInput): User! @resolver(name: "createUser")
+  createMusician(data: CreateMusicianInput): Musician! @resolver(name: "createMusician")
+  # createBand(data: CreateBandInput): Band! @resolver(name: "createBand")
+  loginUser(data: LoginUserInput): AuthPayload! @resolver(name: "login")
+  logoutUser(data: LogoutInput): Boolean! @resolver(name: "logout")
 }

@@ -9,7 +9,7 @@ const StandardLayout: FC = ({ children }) => {
         <Navbar />
       </header>
       <main>
-        <div className="container">{children}</div>
+        <div className='container'>{children}</div>
       </main>
     </>
   );

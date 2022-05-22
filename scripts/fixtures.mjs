@@ -1,23 +1,23 @@
-import faunaClient from './fauna-client.mjs';
+import faunaClient from './fauna-apollo-client.mjs';
 import faunadb from 'faunadb';
 const fql = faunadb.query;
 
 const users = [
-  { id: 1, email: 'michel@test.com', password: 'michelpw' },
-  { id: 2, email: 'philippe@test.com', password: 'philippepw' },
-  { id: 3, email: 'lucie@test.com', password: 'luciepw' },
-  { id: 4, email: 'aline@test.com', password: 'alinepw' },
-  { id: 5, email: 'bertrand@test.com', password: 'bertrandpw' },
-  { id: 6, email: 'fabienne@test.com', password: 'fabiennepw' },
+  { id: 1, email: 'michel@test.com', password: 'michelpw', firstName: "Michel", lastName: "Dupont", role: "User" },
+  { id: 2, email: 'philippe@test.com', password: 'philippepw', firstName: "Philippe", lastName: "Morin", role: "User" },
+  { id: 3, email: 'lucie@test.com', password: 'luciepw', firstName: "Lucie", lastName: "Tournelle", role: "User" },
+  { id: 4, email: 'aline@test.com', password: 'alinepw', firstName: "Aline", lastName: "Poudret", role: "User" },
+  { id: 5, email: 'bertrand@test.com', password: 'bertrandpw', firstName: "Bertrand", lastName: "Bouin", role: "User" },
+  { id: 6, email: 'fabienne@test.com', password: 'fabiennepw', firstName: "Fabienne", lastName: "Martin", role: "User" },
 ];
 
 const musicians = [
-  { id: 1, userId: 1, firstName: "Michel", lastName: "Dupont", bandId: 1, isBandAdmin: true, instrumentId: 1, city: 'Lyon', objective: 'Amateur', experience: "débutant" },
-  { id: 2, userId: 2, firstName: "Philippe", lastName: "Morin", bandId: 2, isBandAdmin: false, instrumentId: 2, city: 'Paris', objective: 'Semi-Pro', experience: "confirmé" },
-  { id: 3, userId: 3, firstName: "Lucie", lastName: "Tournelle", bandId: 0, isBandAdmin: false, instrumentId: 3, city: 'Lyon', objective: 'Pro', experience: "expert" },
-  { id: 4, userId: 4, firstName: "Aline", lastName: "Poudret", bandId: 0, isBandAdmin: false, instrumentId: 4, city: 'Bordeaux', objective: 'Amateur', experience: "débutant" },
-  { id: 5, userId: 5, firstName: "Bertrand", lastName: "Bouin", bandId: 2, isBandAdmin: true, instrumentId: 1, city: 'Paris', objective: 'Semi-Pro', experience: "confirmé" },
-  { id: 6, userId: 6, firstName: "Fabienne", lastName: "Martin", bandId: 3, isBandAdmin: true, instrumentId: 2, city: 'Bordeaux', objective: 'Pro', experience: "expert" },
+  { id: 1, userId: 1, bandId: 1, isBandAdmin: true, instrumentId: 1, city: 'Lyon', objective: 'Amateur', experience: "débutant" },
+  { id: 2, userId: 2, bandId: 2, isBandAdmin: false, instrumentId: 3, city: 'Paris', objective: 'Semi-Pro', experience: "confirmé" },
+  { id: 3, userId: 3, bandId: 0, isBandAdmin: false, instrumentId: 2, city: 'Lyon', objective: 'Pro', experience: "expert" },
+  { id: 4, userId: 4, bandId: 0, isBandAdmin: false, instrumentId: 4, city: 'Bordeaux', objective: 'Amateur', experience: "débutant" },
+  { id: 5, userId: 5, bandId: 2, isBandAdmin: true, instrumentId: 1, city: 'Paris', objective: 'Semi-Pro', experience: "confirmé" },
+  { id: 6, userId: 6, bandId: 3, isBandAdmin: true, instrumentId: 2, city: 'Bordeaux', objective: 'Pro', experience: "expert" },
 ];
 
 const bands = [
@@ -134,7 +134,7 @@ const run = async () =>
   console.info('Creating users...');
   for (const user of users)
   {
-    const { id, email, password } = user;
+    const { id, email, password, role, firstName, lastName } = user;
 
     await faunaClient.query(
       fql.Create(
@@ -144,7 +144,10 @@ const run = async () =>
         ),
         {
           data: {
-            email
+            email,
+            role,
+            firstName,
+            lastName,
           },
           credentials: {
             password
@@ -158,7 +161,7 @@ const run = async () =>
   console.info('Creating musicians...');
   for (const musician of musicians)
   {
-    const { id, userId, email, firstName, lastName, bandId, isBandAdmin, instrumentId, city, objective, experience
+    const { id, userId, bandId, isBandAdmin, instrumentId, city, objective, experience
     } = musician;
 
     await faunaClient.query(
@@ -169,13 +172,10 @@ const run = async () =>
         ),
         {
           data: {
-            user: fql.Ref(
+            adminUser: fql.Ref(
               fql.Collection('User'),
               userId,
             ),
-            firstName,
-            lastName,
-            email,
             city,
             objective,
             experience,
@@ -212,7 +212,7 @@ const run = async () =>
             city,
             objective,
             experience,
-            admin: fql.Ref(
+            adminUser: fql.Ref(
               fql.Collection('User'),
               adminId,
             ),
