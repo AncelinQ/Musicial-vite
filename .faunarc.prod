@@ -1,0 +1,15 @@
+# FAUNA_DOMAIN=db.fauna.com
+# FAUNA_GRAPHQL_HOST=graphql.fauna.com
+FAUNA_PORT=443
+FAUNA_SCHEME=https
+# cle de la nouvelle bdd musicial-netlify
+# FAUNA_KEY=fnAEf8y0ZpACSa3Svbd_ZvHYXmS5GEiI4CKDvwKg
+
+# Domaines originaux region europe
+FAUNA_DOMAIN=db.eu.fauna.com
+FAUNA_GRAPHQL_HOST=graphql.eu.fauna.com
+# cle de la bdd originale musicial
+FAUNA_KEY=fnAEcgBs8qAAx-RGF7vvWGK-spcJ-byEdr7RX7Z4
+
+FAUNA_GUEST_SECRET=fnAEfOyeoHAAxxWJgfX7xGzNm5wml5I96Mq7K8_p
+FAUNA_USER_SECRET=fnAEfPJfwcAAx-VCx6WMils8MOf76e3L8dioyhCl
