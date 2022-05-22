@@ -8,7 +8,6 @@ data
 *.prod
 .env
 .faunarc
-*.old.*
 src/data
 
 # Local Netlify folder
