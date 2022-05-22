@@ -1,6 +1,6 @@
-import { FaunaId } from './../../../types/fauna';
+import { FaunaId } from '../../../common/types/fauna';
 import { gql, TypedDocumentNode } from '@apollo/client';
-import { Ad } from '../../../types/api';
+import { Ad } from '../../../common/types/types';
 
 interface Response {
   findMusicianAdByID: Ad;
@@ -18,8 +18,12 @@ const query: TypedDocumentNode<Response, Variables> = gql`
       description
       author {
         _id
-        firstName
-        lastName
+        adminUser {
+          _id
+          firstName
+          lastName
+          email
+        }
         city
         instrument {
           _id

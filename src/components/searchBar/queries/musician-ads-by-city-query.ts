@@ -2,21 +2,25 @@ import { gql, TypedDocumentNode } from '@apollo/client';
 import { Ad } from '../../../common/types/types';
 
 interface Response {
-  allBandAds: {
+  musicianAdsByCity: {
     data: Ad[];
   };
 }
 
 const query: TypedDocumentNode<Response> = gql`
-  query allBandAds {
-    allBandAds {
+  query musicianAdsByCity($city: String!) {
+    musicianAdsByCity(city: $city) {
       data {
         _id
         title
         description
         author {
           _id
-          name
+          adminUser {
+            _id
+            firstName
+            lastName
+          }
           city
           styles {
             data {

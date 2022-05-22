@@ -8,9 +8,15 @@ import {
   FaSignOutAlt,
   FaSignInAlt,
 } from 'react-icons/fa';
+import Logout from './logout';
+import { getUser, isLoggedIn } from '../../common/auth/auth-functions';
+import { useAuthContext } from '../../common/auth/auth-context';
+import { Link } from 'react-router-dom';
 
 const Navbar: FC = () => {
   const [isActive, setisActive] = React.useState(false);
+  const { actions, currentUser } = useAuthContext();
+  const loggedInUser = actions.getCurrentUser();
 
   return (
     <>
@@ -56,56 +62,70 @@ const Navbar: FC = () => {
             </div>
           </div>
           <div className='navbar-end'>
-            <div className='navbar-item'>
-              <a href='#'>
-                <FaPlusSquare />
-                <span className='ml-2'>Nouvelle annonce</span>
-              </a>
-            </div>
-            <div className='navbar-item'>
-              <a href='#'>
-                <FaEnvelope />
-                <span className='ml-2'>Messages</span>
-              </a>
-            </div>
-            <div className='navbar-item'>
-              <a href='#'>
-                <FaHeart />
-                <span className='ml-2'>Favoris</span>
-              </a>
-            </div>
-            <div className='navbar-item has-dropdown is-hoverable'>
-              <a className='navbar-link' href='#'>
-                <FaUserCircle />
-                <span className='ml-2'>Profil</span>
-              </a>
-              <div className='navbar-dropdown'>
-                <a className='navbar-item' href='#'>
-                  Mon compte
-                </a>
-                <a className='navbar-item' href='#'>
-                  Mes groupes
-                </a>
-                <a className='navbar-item' href='#'>
-                  Mes annonces
-                </a>
-                <hr className='navbar-divider' />
-                <a className='navbar-item'>
-                  <div className='button is-danger is-light'>
-                    <span className='mr-2'>Déconnexion</span>
-                    <FaSignOutAlt className='text-lg leading-lg text-white opacity-75' />
+            {isLoggedIn() ? (
+              <div className='navbar-item'>
+                <div className='navbar-item'>
+                  <a href='#'>
+                    <FaPlusSquare />
+                    <span className='ml-2'>Nouvelle annonce</span>
+                  </a>
+                </div>
+                <div className='navbar-item'>
+                  <a href='#'>
+                    <FaEnvelope />
+                    <span className='ml-2'>Messages</span>
+                  </a>
+                </div>
+                {/* <div className='navbar-item'>
+                  <a href='#'>
+                    <FaHeart />
+                    <span className='ml-2'>Favoris</span>
+                  </a>
+                </div> */}
+                <div className='navbar-item has-dropdown is-hoverable'>
+                  <a className='navbar-link' href='#'>
+                    <FaUserCircle />
+                    <span className='ml-2'>{loggedInUser?.firstName}</span>
+                  </a>
+                  <div className='navbar-dropdown is-right'>
+                    <Link
+                      to={`/musicians/${loggedInUser?._id}`}
+                      className='navbar-item'
+                    >
+                      Mon profil
+                    </Link>
+                    <Link
+                      to={`/musicians/${loggedInUser?._id}`}
+                      className='navbar-item'
+                    >
+                      Mon compte
+                    </Link>
+                    <a className='navbar-item' href='#'>
+                      Mes groupes
+                    </a>
+                    <a className='navbar-item' href='#'>
+                      Mes annonces
+                    </a>
+                    <hr className='navbar-divider' />
+                    <Logout />
                   </div>
-                </a>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className='navbar-item'>
-            <div className='buttons'>
-              <a className='button is-primary' href='/login'>
-                <FaSignInAlt className='text-lg leading-lg text-white opacity-75' />
-                <span className='ml-2'>Connexion</span>
-              </a>
-            </div>
+            ) : (
+              ''
+            )}
+            {typeof isLoggedIn() === 'undefined' ? (
+              <div className='navbar-item'>
+                <div className='buttons'>
+                  <a className='button is-primary' href='/login'>
+                    <FaSignInAlt className='text-lg leading-lg text-white opacity-75' />
+                    <span className='ml-2'>Connexion</span>
+                  </a>
+                </div>
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         </div>
       </nav>

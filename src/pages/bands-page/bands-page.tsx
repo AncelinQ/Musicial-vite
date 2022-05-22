@@ -4,8 +4,8 @@ import { RouteProps } from 'react-router-dom';
 import { BandCard } from '../../components/band';
 import { FaSearch, FaMapMarkerAlt } from 'react-icons/fa';
 import { Audio } from 'react-loader-spinner';
-import { useQuery } from '@apollo/client';
-import { AllBandsQuery } from './queries';
+import { useLazyQuery, useQuery } from '@apollo/client';
+import { AllBandsQuery, BandsByCityQuery } from './queries';
 
 type FormValues = {
   searchParams: string;
@@ -14,8 +14,12 @@ type FormValues = {
 
 const BandsPage: FC<RouteProps> = ({}) => {
   const { data, loading } = useQuery(AllBandsQuery);
+  // const [getBandsByCity, { data, loading, error }] =
+  // useLazyQuery(BandsByCityQuery);
 
   const bands = data?.allBands;
+
+  // const bands = data?.bandsByCity;
 
   const {
     register,
@@ -24,7 +28,9 @@ const BandsPage: FC<RouteProps> = ({}) => {
     formState: { errors },
   } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+    let city = data.city.toLowerCase();
+    city = city.charAt(0).toUpperCase() + city.slice(1);
+    // getBandsByCity({ variables: { city: city } });
   };
   return (
     <>

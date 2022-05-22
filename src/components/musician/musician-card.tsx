@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Musician } from '../../types/api';
+import { Musician } from '../../common/types/types';
 
 interface MusicianCardProps {
   musician: Musician;
@@ -13,7 +13,7 @@ const MusicianCard: FC<MusicianCardProps> = ({ musician }) => {
           <div className='card'>
             <div className='card-header has-background-primary'>
               <h2 className='card-header-title is-centered title is-2 has-text-white	'>
-                {musician.firstName} {musician.lastName}
+                {musician.adminUser?.firstName} {musician.adminUser?.lastName}
               </h2>
             </div>
             <div className='has-background-primary'>

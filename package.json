@@ -1,36 +1,39 @@
 {
-    "name": "musicial-vite",
-    "version": "0.0.0",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview",
-        "migrate": "node scripts/migrate.mjs",
-        "fixtures": "node scripts/fixtures.mjs"
-    },
-    "dependencies": {
-        "@apollo/client": "^3.5.8",
-        "@netlify/functions": "^0.8.0",
-        "@types/node": "^14.18.0",
-        "bulma": "^0.9.3",
-        "dotenv": "^10.0.0",
-        "faunadb": "^4.4.1",
-        "graphql": "^16.3.0",
-        "netlify-cli": "^8.15.3",
-        "node-sass": "^7.0.1",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-hook-form": "^7.22.5",
-        "react-icons": "^4.3.1",
-        "react-loader-spinner": "^5.1.0",
-        "react-router": "^6.2.1",
-        "react-router-dom": "^6.1.1"
-    },
-    "devDependencies": {
-        "@types/react": "^17.0.33",
-        "@types/react-dom": "^17.0.10",
-        "@vitejs/plugin-react": "^1.0.7",
-        "typescript": "^4.5.4",
-        "vite": "^2.7.2"
-    }
+  "name": "musicial-vite",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "migrate": "node --trace-warnings scripts/migrate.mjs",
+    "fixtures": "node scripts/fixtures.mjs"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.5.8",
+    "@datorama/akita": "^7.1.1",
+    "@netlify/functions": "^0.8.0",
+    "@types/node": "^14.18.0",
+    "bulma": "^0.9.3",
+    "dotenv": "^10.0.0",
+    "faunadb": "^4.5.2",
+    "graphql": "^16.3.0",
+    "js-cookie": "^3.0.1",
+    "netlify-cli": "^9.8.0",
+    "node-sass": "^7.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.22.5",
+    "react-icons": "^4.3.1",
+    "react-loader-spinner": "^5.1.0",
+    "react-router": "^6.2.1",
+    "react-router-dom": "^6.1.1"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.1",
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@vitejs/plugin-react": "^1.0.7",
+    "typescript": "^4.5.4",
+    "vite": "^2.7.2"
+  }
 }
