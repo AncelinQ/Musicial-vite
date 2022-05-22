@@ -1,0 +1,7 @@
+{
+  "fauna.domain": "localhost",
+  "fauna.graphqlHost": "localhost:8084",
+  "fauna.port": 8443,
+  "fauna.scheme": "http",
+  "fauna.adminSecretKey": "fnAEcblvp1ACAAbCfnmesEc-q3Y0GoM25t7aDgdJ"
+}

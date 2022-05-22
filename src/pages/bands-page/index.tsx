@@ -1,18 +1,22 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RouteProps } from 'react-router-dom';
-import { UserCard } from '../components/user';
-import { IUser } from '../components/types/types';
-import { Users } from '../data/data';
+import { BandCard } from '../../components/band';
 import { FaSearch, FaMapMarkerAlt } from 'react-icons/fa';
+import { Audio } from 'react-loader-spinner';
+import { useQuery } from '@apollo/client';
+import { AllBandsQuery } from './queries';
 
 type FormValues = {
   searchParams: string;
   city: string;
 };
 
-const MusiciansPage: FC<RouteProps> = ({}) => {
-  const [users, setUser] = useState(Users);
+const BandsPage: FC<RouteProps> = ({}) => {
+  const { data, loading } = useQuery(AllBandsQuery);
+
+  const bands = data?.allBands;
+
   const {
     register,
     handleSubmit,
@@ -24,7 +28,7 @@ const MusiciansPage: FC<RouteProps> = ({}) => {
   };
   return (
     <>
-      <h1 className='title has-text-centered'>Tou·te·s les Musicien·ne·s</h1>
+      <h1 className='title has-text-centered'>Tous les Groupes</h1>
       <form onSubmit={handleSubmit(onSubmit)} method='post'>
         <div className='field is-grouped'>
           <div className='control has-icons-left is-expanded'>
@@ -58,13 +62,19 @@ const MusiciansPage: FC<RouteProps> = ({}) => {
           </button>
         </div>
       </form>
-      <div>
-        {users.map((user, index) => (
-          <UserCard key={index} user={user} />
-        ))}
-      </div>
+      {loading || typeof bands === 'undefined' ? (
+        <div className='is-flex is-justify-content-center'>
+          <Audio color='#29298d' height={40} width={40} />
+        </div>
+      ) : (
+        <div>
+          {bands.data.map((band, index) => (
+            <BandCard key={Number(index)} band={band} />
+          ))}
+        </div>
+      )}
     </>
   );
 };
 
-export default MusiciansPage;
+export default BandsPage;
