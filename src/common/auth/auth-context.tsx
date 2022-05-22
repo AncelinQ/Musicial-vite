@@ -99,9 +99,7 @@ export const AuthContextProvider: FC = ({ children }) => {
       },
     });
     if (registerError) {
-      throw new Error(
-        `Submission error ! ${registerError.message} : ${registerError.cause}`
-      );
+      throw new Error(`Submission error ! ${registerError.message}`);
     }
 
     if (typeof registerData === 'undefined') {
@@ -150,8 +148,7 @@ export const AuthContextProvider: FC = ({ children }) => {
   const useLogout = () => {
     logout();
 
-    if (logoutError)
-      throw new Error(logoutError.message + ' : ' + logoutError.cause);
+    if (logoutError) throw new Error(logoutError.message);
 
     // if (typeof logoutData === 'undefined') {
     //   throw new Error('Logout returned an undefined response');
