@@ -22,7 +22,7 @@ const BandAdSinglePage: FC<RouteProps> = () => {
 
   const loggedInUser = actions.getCurrentUser()?._id === ad?.author?._id;
 
-  if (error) console.log(error.message + ' : ' + error.cause);
+  if (error) console.log(error.message);
 
   return (
     <>

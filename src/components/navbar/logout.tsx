@@ -34,7 +34,7 @@ const Logout = () => {
     client.clearStore();
     navigate('/');
     // }
-    if (error) throw new Error(error.message + ' : ' + error.cause);
+    if (error) throw new Error(error.message);
   };
 
   return (
