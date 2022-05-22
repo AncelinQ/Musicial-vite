@@ -11,7 +11,7 @@ const Profile: FC<ProfileProps> = ({ artist }) => {
       <div>
         <h1 className='title is-1 has-text-centered'>
           {!artist.name
-            ? artist.firstName + ' ' + artist.lastName
+            ? artist.adminUser?.firstName + ' ' + artist.adminUser?.lastName
             : artist.name}
         </h1>
         <div className='has-text-centered'>
