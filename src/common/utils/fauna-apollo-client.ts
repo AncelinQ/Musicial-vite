@@ -1,11 +1,5 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  createHttpLink,
-  ApolloProvider,
-  useQuery,
-  gql,
-} from '@apollo/client';
+import { getToken } from '../auth/auth-functions';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 const { VITE_FAUNA_GRAPHQL_DOMAIN, VITE_FAUNA_HTTPS, VITE_FAUNA_SECRET } =
@@ -19,8 +13,10 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token if it exists
-  const token = VITE_FAUNA_SECRET;
+  const token =
+    typeof getToken() !== 'undefined' ? getToken() : VITE_FAUNA_SECRET;
   // return the headers to the context so httpLink can read them
+
   return {
     headers: {
       ...headers,

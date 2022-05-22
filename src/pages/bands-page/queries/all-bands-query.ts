@@ -1,5 +1,5 @@
 import { gql, TypedDocumentNode } from '@apollo/client';
-import { Band } from '../../../types/api';
+import { Band } from '../../../common/types/types';
 
 interface Response {
   allBands: {

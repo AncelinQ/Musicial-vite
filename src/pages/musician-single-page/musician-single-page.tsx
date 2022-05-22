@@ -1,12 +1,20 @@
 import { useQuery } from '@apollo/client';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { RouteProps, useParams } from 'react-router-dom';
 import { MusicianByID } from './queries';
 import { Audio } from 'react-loader-spinner';
+import { useAuthContext } from '../../common/auth/auth-context';
 
 const MusiciansSinglePage: FC<RouteProps> = ({}) => {
   // Récupère l'ID passé dans l'URL de la page
   const { id } = useParams();
+  const { actions, currentUser } = useAuthContext();
+
+  let loggedInUser;
+
+  typeof currentUser === 'undefined'
+    ? (loggedInUser = actions.getCurrentUser())
+    : (loggedInUser = currentUser);
 
   if (typeof id === 'undefined') {
     throw new Error('URL Parameter "id" is missing.');
@@ -16,6 +24,8 @@ const MusiciansSinglePage: FC<RouteProps> = ({}) => {
 
   const musician = data?.findMusicianByID;
 
+  const adminInUser = loggedInUser?._id === musician?._id;
+
   return (
     <>
       {loading || typeof musician === 'undefined' ? (
@@ -24,8 +34,15 @@ const MusiciansSinglePage: FC<RouteProps> = ({}) => {
         </div>
       ) : (
         <div>
+          {adminInUser && (
+            <div className='buttons is-right'>
+              <button type='button' className='button is-primary'>
+                Edit
+              </button>
+            </div>
+          )}
           <h1 className='title is-1 has-text-centered'>
-            {musician.firstName} {musician.lastName}
+            {musician.adminUser?.firstName} {musician.adminUser?.lastName}
           </h1>
           <div className='has-text-centered'>
             <h3 className='title is-3'>{musician.city}</h3>
@@ -59,18 +76,22 @@ const MusiciansSinglePage: FC<RouteProps> = ({}) => {
           </div>
           <div>
             <h3 className='title is-3'>Groupe</h3>
-            <p>{musician.band?.name}</p>
+            <p>
+              <a href={`/bands/${musician.band?._id}`}>{musician.band?.name}</a>
+            </p>
           </div>
           {/* <div>
             <h3 className='title is-3'>Groupes</h3>
-            {user?.bands?.map((band, index) => (
+            {adminUser?.bands?.map((band, index) => (
               <p key={index}>{band.name}</p>
             ))}
           </div> */}
           <div>
             <h3 className='title is-3'>Annonces</h3>
             {musician.ads?.data?.map((ad, index) => (
-              <p key={index}>{ad.title}</p>
+              <p key={index}>
+                <a href={`/musician/ads/${ad._id}`}>{ad.title}</a>
+              </p>
             ))}
           </div>
         </div>

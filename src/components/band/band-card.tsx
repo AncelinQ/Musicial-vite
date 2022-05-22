@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Band } from '../../types/api';
+import { Band } from '../../common/types/types';
 
 interface BandCardProps {
   band: Band;

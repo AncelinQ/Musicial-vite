@@ -5,7 +5,7 @@ import { MusicianCard } from '../../components/musician';
 import { Audio } from 'react-loader-spinner';
 import { FaSearch, FaMapMarkerAlt } from 'react-icons/fa';
 import { useQuery } from '@apollo/client';
-import { AllMusiciansQuery } from './queries/';
+import { AllMusiciansQuery } from './queries';
 
 type FormValues = {
   searchParams: string;

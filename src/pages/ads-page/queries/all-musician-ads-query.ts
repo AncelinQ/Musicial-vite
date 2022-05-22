@@ -1,5 +1,5 @@
 import { gql, TypedDocumentNode } from '@apollo/client';
-import { Ad } from '../../../types/api';
+import { Ad } from '../../../common/types/types';
 
 interface Response {
   allMusicianAds: {
@@ -16,8 +16,11 @@ const query: TypedDocumentNode<Response> = gql`
         description
         author {
           _id
-          firstName
-          lastName
+          adminUser {
+            _id
+            firstName
+            lastName
+          }
           city
           styles {
             data {

@@ -4,14 +4,10 @@ import { RouteProps } from 'react-router-dom';
 import { AdCard } from '../../components/ad';
 import { FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
 import { Audio } from 'react-loader-spinner';
-import { Ad } from '../../types/api';
+import { Ad } from '../../common/types/types';
 import { useQuery } from '@apollo/client';
 import { AllBandAdsQuery, AllMusicianAdsQuery } from './queries';
-
-type FormValues = {
-  searchParams: string;
-  city: string;
-};
+import SearchBar from '../../components/searchBar/search-bar';
 
 const AdsPage: FC<RouteProps> = ({}) => {
   const [adType, setAdType] = useState<string>('');
@@ -24,15 +20,7 @@ const AdsPage: FC<RouteProps> = ({}) => {
   const musicianAds = musicianAdsData?.allMusicianAds;
 
   useEffect(() => {});
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-  };
+
   return (
     <>
       <h1 className='title has-text-centered'>Toutes les Annonces</h1>
@@ -56,39 +44,7 @@ const AdsPage: FC<RouteProps> = ({}) => {
           onChange={(e) => setAdType(e.target.value)}
         />
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} method='get'>
-        <div className='field is-grouped'>
-          <div className='control has-icons-left is-expanded'>
-            <label className='label is-hidden'>Recherche</label>
-            <input
-              className='input'
-              id='searchQuery'
-              type='text'
-              placeholder='Instruments, styles,...'
-              {...register('searchParams')}
-            />
-            <span className='icon is-small is-left'>
-              <FaSearch />
-            </span>
-          </div>
-          <div className='control has-icons-left'>
-            <label className='label is-hidden'>Ville</label>
-            <input
-              className='input'
-              id='city'
-              type='text'
-              placeholder='Ville'
-              {...register('city')}
-            />
-            <span className='icon is-small is-left'>
-              <FaMapMarkerAlt />
-            </span>
-          </div>
-          <button className='submit button is-info control '>
-            C'est parti
-          </button>
-        </div>
-      </form>
+      <SearchBar />
 
       {adType === 'band' && (
         <div>

@@ -1,5 +1,5 @@
-import { FC, useState } from 'react';
-import { Ad } from '../../types/api';
+import { FC } from 'react';
+import { Ad } from '../../common/types/types';
 
 interface AdCardProps {
   ad: Ad;
@@ -8,11 +8,14 @@ interface AdCardProps {
 const AdCard: FC<AdCardProps> = ({ ad }) => {
   let adUri;
 
-  if (ad.author?.name === undefined && ad.author?.firstName !== undefined) {
+  if (
+    ad.author?.name === undefined &&
+    ad.author?.adminUser?.firstName !== undefined
+  ) {
     adUri = 'musician';
   } else if (
     ad.author?.name !== undefined &&
-    ad.author?.firstName === undefined
+    ad.author?.adminUser?.firstName === undefined
   ) {
     adUri = 'band';
   }
@@ -25,7 +28,9 @@ const AdCard: FC<AdCardProps> = ({ ad }) => {
             <div className='card-header has-background-primary'>
               <h2 className='card-header-title is-centered title is-2 has-text-white'>
                 {!ad.author?.name
-                  ? ad.author?.firstName + ' ' + ad.author?.lastName
+                  ? ad.author?.adminUser?.firstName +
+                    ' ' +
+                    ad.author?.adminUser?.lastName
                   : ad.author?.name}
               </h2>
               <p>{ad.author?.city}</p>
